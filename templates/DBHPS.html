@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBHPS Exams Overview</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        body {
+            font-family: 'Geologica', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: padding 0.3s ease;
+        }
+
+        .container1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 60px;
+            vertical-align: middle;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 20px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .get-started {
+        background-color: #0077b6;
+        border: none;
+        padding: 10px 20px;
+        color: white;
+        font-size: 1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .get-started:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            color: #0077b6;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .exam-title {
+            font-family: 'Montserrat', sans-serif;
+            color: #0077b6;
+            font-size: 1.8rem;
+            margin-top: 20px;
+        }
+
+        .exam-level {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .exam-content ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .how-teach {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .how-teach h5 {
+            font-family: 'Montserrat', sans-serif;
+            color: #0077b6;
+        }
+
+        footer {
+            background: #05559c;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .footer-links,
+        .footer-contact {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li img {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+        }
+
+        .footer-contact h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .contact-item img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .contact-item p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .footer-social {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .footer-social img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #05559c;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .footer-links-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-links-right a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .footer-links-right a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container1">
+            <div class="logo">
+                <img src="/static/d.png" alt="Hindo.in Logo">
+            </div>
+            <ul class="nav-links" style="margin-left: auto;">
+                <li><a href="{{ url_for('landing_page') }}">HOME</a></li>
+                <li><a href="{{ url_for('course') }}">COURSE</a></li>
+                <li><a href="{{ url_for('contact') }}">CONTACT</a></li>
+                <li><a href="{{ url_for('login_page') }}">LOGIN</a></li>
+            </ul>
+            <button class="get-started" onclick="window.location.href='{{ url_for('registration_page') }}'">Get Started</button>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="section-title">DBHPS Exams Overview</h1>
+        <p>The Dakshina Bharat Hindi Prachar Sabha (DBHPS) conducts a series of exams to promote and assess Hindi language proficiency. Here is an overview of the eight key exams offered and how Hindo instructors will teach students at each level:</p>
+        
+        <div class="exam">
+            <h2 class="exam-title">1. Prathamic (Primary Level)</h2>
+            <p class="exam-level">Level: Lower Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Basic Hindi vocabulary and grammar.</li>
+                    <li>Simple sentence construction.</li>
+                    <li>Reading and comprehension of basic Hindi passages.</li>
+                    <li>Basic Hindi writing skills.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Interactive Lessons: Use of interactive activities to build a strong foundation in basic Hindi.</li>
+                    <li>Visual Aids: Incorporating flashcards, pictures, and videos to make learning engaging.</li>
+                    <li>Practice Tests: Regular tests to monitor progress and provide feedback.</li>
+                    <li>Conversational Practice: Emphasis on speaking and listening through simple conversations.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">2. Madhyama (Middle Level)</h2>
+            <p class="exam-level">Level: Lower Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Intermediate Hindi grammar and vocabulary.</li>
+                    <li>Composition and essay writing.</li>
+                    <li>Reading comprehension of moderately complex passages.</li>
+                    <li>Introduction to Hindi literature and poetry.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Grammar Exercises: Focused grammar exercises to build intermediate skills.</li>
+                    <li>Writing Workshops: Structured workshops to improve essay and composition writing.</li>
+                    <li>Literary Discussions: Discussions on simple literary texts to enhance comprehension.</li>
+                    <li>Quizzes and Assessments: Regular quizzes to assess understanding and progress.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">3. Rashtrabhasha (National Language Level)</h2>
+            <p class="exam-level">Level: Lower Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Advanced Hindi grammar and vocabulary.</li>
+                    <li>Detailed study of Hindi prose and poetry.</li>
+                    <li>Advanced comprehension and critical analysis.</li>
+                    <li>In-depth essay writing and translation exercises.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Advanced Literary Analysis: Detailed analysis of prose and poetry.</li>
+                    <li>Critical Thinking Exercises: Activities to develop critical thinking and analytical skills.</li>
+                    <li>Translation Practice: Regular practice with translation exercises.</li>
+                    <li>Comprehensive Feedback: Detailed feedback on writing assignments to improve quality.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">4. Praveshika (Entrance Level)</h2>
+            <p class="exam-level">Level: Higher Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Comprehensive Hindi grammar and vocabulary.</li>
+                    <li>Study of classical and modern Hindi literature.</li>
+                    <li>High-level comprehension and critical analysis.</li>
+                    <li>Advanced composition and creative writing.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>In-depth Literary Study: Intensive study of selected literary works.</li>
+                    <li>Creative Writing Sessions: Workshops focused on enhancing creative writing skills.</li>
+                    <li>Analytical Discussions: Group discussions to analyze and interpret texts.</li>
+                    <li>Personalized Coaching: One-on-one sessions to address individual needs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">5. Visharadh Poorvardh (Advanced Part 1)</h2>
+            <p class="exam-level">Level: Higher Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Advanced Hindi linguistics and grammar.</li>
+                    <li>Study of selected Hindi literary works.</li>
+                    <li>In-depth analysis of prose and poetry.</li>
+                    <li>Advanced essay writing and critical analysis.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Focused Study Groups: Group study sessions for collaborative learning.</li>
+                    <li>Advanced Grammar Workshops: Workshops to master complex grammatical concepts.</li>
+                    <li>Literary Critique: Sessions dedicated to the critique of literary works.</li>
+                    <li>Regular Assessments: Frequent assessments to track progress and areas of improvement.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">6. Visharadh Uttaradh (Advanced Part 2)</h2>
+            <p class="exam-level">Level: Higher Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Continued study of advanced Hindi literature and linguistics.</li>
+                    <li>Detailed analysis and interpretation of texts.</li>
+                    <li>High-level essay and composition writing.</li>
+                    <li>Preparation for professional use of Hindi.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Intensive Study Sessions: Deep dives into complex literary texts.</li>
+                    <li>Advanced Writing Practice: Exercises to hone high-level writing skills.</li>
+                    <li>Professional Application: Training for the practical application of Hindi in professional settings.</li>
+                    <li>Mentorship: Guidance and mentorship for academic and professional growth.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">7. Praveen Poorvardh (Proficiency Part 1)</h2>
+            <p class="exam-level">Level: Higher Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Mastery of Hindi grammar and vocabulary.</li>
+                    <li>Extensive study of Hindi literature.</li>
+                    <li>Advanced comprehension and analysis.</li>
+                    <li>In-depth essay writing and translation.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Master Classes: Expert-led classes on advanced topics.</li>
+                    <li>Literary Workshops: Workshops focused on intensive literary study.</li>
+                    <li>Translation Exercises: Regular practice with translation of complex texts.</li>
+                    <li>Feedback and Improvement: Continuous feedback to refine skills.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exam">
+            <h2 class="exam-title">8. Praveen Uttarardh (Proficiency Part 2)</h2>
+            <p class="exam-level">Level: Higher Exam</p>
+            <div class="exam-content">
+                <h5>Basic Syllabus Outline:</h5>
+                <ul>
+                    <li>Expert-level proficiency in Hindi.</li>
+                    <li>Specialized study of linguistics and literature.</li>
+                    <li>Research and thesis writing.</li>
+                    <li>Advanced translation and interpretation.</li>
+                </ul>
+            </div>
+            <div class="how-teach">
+                <h5>How Hindo Instructors Teach:</h5>
+                <ul>
+                    <li>Individualized Study Plans: Custom study plans tailored to each student's needs.</li>
+                    <li>Research Guidance: Mentorship for conducting research and writing theses.</li>
+                    <li>Advanced Interpretation Practice: Practice sessions for translation and interpretation.</li>
+                    <li>Professional Development: Training for the professional application of Hindi skills.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <footer>
+        <div class="footer-container" style="background: #05559c; color: white; padding: 20px 0;">
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('aboutus') }}"><img src="/static/arrow.png" alt="Arrow"> About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}"><img src="/static/arrow.png" alt="Arrow"> Contact Us</a></li>
+                    <li><a href="{{ url_for('PrivacyPolicy') }}"><img src="/static/arrow.png" alt="Arrow"> Privacy Policy</a></li>
+                    <li><a href="{{ url_for('TermsCondition') }}"><img src="/static/arrow.png" alt="Arrow"> Terms & Condition</a></li>
+                    <li><a href="{{ url_for('otherpolicies') }}"><img src="/static/arrow.png" alt="Arrow"> Other Policies</a></li>
+                    <li><a href="{{ url_for('FAQs') }}"><img src="/static/arrow.png" alt="Arrow"> FAQs & Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <div class="contact-item">
+                    <img src="static/p3.jpg" alt="Location"><p>123 Street, New York, USA</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p2.jpg" alt="Phone"><p>+012 345 67890</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p1.jpg" alt="Email"><p>support@hindo.in</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><img src="/static/p1.jpg" alt="Email" class="social-icon"></a>
+                    <a href="#"><img src="static/download.jpg" alt="Facebook" class="social-icon"></a>
+                    <a href="#"><img src="static/download-3.jpg" alt="Instagram" class="social-icon"></a>
+                    <a href="#"><img src="static/lo3.jpg" alt="LinkedIn" class="social-icon"></a>
+                </div>
+            </div>
+        </div>
+        <p>___________________________________________________________________________________________________________________________________________________________________</p>
+        <div class="footer-bottom" style="background: #05559c; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <p><span style="text-decoration: underline;">© Hindo.in</span>, All Right Reserved. Designed By Hindo.in
+                <div class="footer-links-right">
+                    <a href="#" style="color: white; margin-right: 10px;">Home</a>
+                    <span style="color: white; margin-right: 10px;">|</span>
+                    <a href="{{ url_for('cookies') }}" style="color: white; margin-right: 10px;">Cookies</a>
+                    <span style="color: white; margin-right: 10px;">|</span>
+                    <a href="{{ url_for('FAQs') }}" style="color: white;">FAQs</a>
+                </div>
+        </div>
+    </footer>
+</body>
+</html>

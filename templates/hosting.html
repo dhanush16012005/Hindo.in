@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Meeting</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            height: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .video-container {
+            flex: 2;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        #localVideo {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        button i {
+            font-size: 20px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #chat-input {
+            padding: 10px;
+            border: none;
+            border-top: 1px solid #ddd;
+            width: calc(100% - 80px);
+        }
+
+        #send-button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        #host-name-input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+        }
+
+        #host-submit-button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #meeting-info-modal .modal-content {
+            width: 400px;
+        }
+
+        #info-container {
+            text-align: left;
+        }
+
+        #info-container p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="host-modal" class="modal" style="display: flex;">
+        <div class="modal-content">
+            <h2>Enter Your Name to Host</h2>
+            <input type="text" id="host-name-input" placeholder="Your Name">
+            <button id="host-submit-button">Submit</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="video-container">
+            <video id="localVideo" autoplay muted></video>
+            <div class="controls">
+                <button id="toggle-video"><i class="fas fa-video"></i></button>
+                <button id="toggle-audio"><i class="fas fa-microphone"></i></button>
+                <button id="share-screen"><i class="fas fa-desktop"></i></button>
+                <button id="toggle-chat"><i class="fas fa-comments"></i></button>
+                <button id="show-participants"><i class="fas fa-users"></i></button>
+                <button id="show-info"><i class="fas fa-info-circle"></i></button>
+            </div>
+        </div>
+        <div class="chat-container" id="chat-container">
+            <div class="messages" id="messages"></div>
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <div id="participants-modal" class="modal">
+        <div class="modal-content">
+            <h2>Participants</h2>
+            <ul id="participants-list"></ul>
+            <button id="close-participants-button">Close</button>
+        </div>
+    </div>
+
+    <div id="meeting-info-modal" class="modal">
+        <div class="modal-content">
+            <h2>Meeting Information</h2>
+            <div id="info-container">
+                <p><strong>Meeting ID:</strong> <span id="meeting-id-text"></span></p>
+                <p><strong>Host Name:</strong> <span id="host-name-text"></span></p>
+            </div>
+            <button id="close-info-button">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+
+        let localStream;
+        let peerConnection;
+        const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+        let userName = '';
+        let meetingId = '';
+        const participants = [];
+
+        document.getElementById('host-submit-button').addEventListener('click', hostMeeting);
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+        document.getElementById('toggle-video').addEventListener('click', toggleVideo);
+        document.getElementById('toggle-audio').addEventListener('click', toggleAudio);
+        document.getElementById('share-screen').addEventListener('click', shareScreen);
+        document.getElementById('toggle-chat').addEventListener('click', toggleChat);
+        document.getElementById('show-participants').addEventListener('click', showParticipants);
+        document.getElementById('close-participants-button').addEventListener('click', closeParticipantsModal);
+        document.getElementById('show-info').addEventListener('click', showInfo);
+        document.getElementById('close-info-button').addEventListener('click', closeInfoModal);
+
+        function hostMeeting() {
+            const hostNameInput = document.getElementById('host-name-input');
+            userName = hostNameInput.value.trim();
+            meetingId = generateMeetingId();
+
+            if (userName) {
+                participants.push(userName);
+                document.getElementById('host-modal').style.display = 'none';
+                initializeMeeting(true);
+            } else {
+                alert('Please enter your name.');
+            }
+        }
+
+        function initializeMeeting(isHost) {
+            document.querySelector('.video-container').style.display = 'flex';
+
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+                localStream = stream;
+                document.getElementById('localVideo').srcObject = localStream;
+
+                peerConnection = new RTCPeerConnection(configuration);
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+                peerConnection.onicecandidate = event => {
+                    if (event.candidate) {
+                        socket.emit('candidate', { candidate: event.candidate, room: meetingId });
+                    }
+                };
+
+                if (isHost) {
+                    peerConnection.createOffer().then(offer => {
+                        return peerConnection.setLocalDescription(offer);
+                    }).then(() => {
+                        socket.emit('host', { room: meetingId, username: userName });
+                        socket.emit('offer', { offer: peerConnection.localDescription, room: meetingId });
+                    });
+                }
+            });
+
+            socket.on('message', data => {
+                const messageElement = document.createElement('div');
+                messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.msg}`;
+                document.getElementById('messages').appendChild(messageElement);
+            });
+
+            socket.on('share_screen', data => {
+                const video = document.getElementById('localVideo');
+                const screenStream = new MediaStream();
+                screenStream.addTrack(new RTCVideoTrack(data.track));
+                video.srcObject = screenStream;
+            });
+        }
+
+        function generateMeetingId() {
+            const segments = [];
+            segments.push(Math.floor(100 + Math.random() * 900));
+            segments.push(Math.floor(10 + Math.random() * 90));
+            segments.push(Math.floor(10 + Math.random() * 90));
+            segments.push(Math.floor(1000 + Math.random() * 9000));
+            return segments.join('-');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+
+            if (message) {
+                socket.emit('message', { msg: message, username: userName, room: meetingId });
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function toggleVideo() {
+            if (localStream) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                videoTrack.enabled = !videoTrack.enabled;
+                document.getElementById('toggle-video').innerHTML = videoTrack.enabled ? '<i class="fas fa-video"></i>' : '<i class="fas fa-video-slash"></i>';
+            }
+        }
+
+        function toggleAudio() {
+            if (localStream) {
+                const audioTrack = localStream.getAudioTracks()[0];
+                audioTrack.enabled = !audioTrack.enabled;
+                document.getElementById('toggle-audio').innerHTML = audioTrack.enabled ? '<i class="fas fa-microphone"></i>' : '<i class="fas fa-microphone-slash"></i>';
+            }
+        }
+
+        function shareScreen() {
+            navigator.mediaDevices.getDisplayMedia({ video: true }).then(screenStream => {
+                socket.emit('share_screen', { track: screenStream.getVideoTracks()[0], room: meetingId });
+                screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+                    socket.emit('share_screen', { track: localStream.getVideoTracks()[0], room: meetingId });
+                });
+            }).catch(error => {
+                console.error('Error accessing display media.', error);
+            });
+        }
+
+        function toggleChat() {
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function showParticipants() {
+            const participantsList = document.getElementById('participants-list');
+            participantsList.innerHTML = ''; // Clear the list first
+            participants.forEach(participant => {
+                const li = document.createElement('li');
+                li.textContent = participant;
+                participantsList.appendChild(li);
+            });
+            document.getElementById('participants-modal').style.display = 'flex';
+        }
+
+        function closeParticipantsModal() {
+            document.getElementById('participants-modal').style.display = 'none';
+        }
+
+        function showInfo() {
+            document.getElementById('meeting-id-text').innerText = meetingId;
+            document.getElementById('host-name-text').innerText = userName;
+            document.getElementById('meeting-info-modal').style.display = 'flex';
+        }
+
+        function closeInfoModal() {
+            document.getElementById('meeting-info-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

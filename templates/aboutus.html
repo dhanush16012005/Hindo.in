@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Hindo.in</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Geologica', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        nav {
+            background-color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 60px;
+            vertical-align: middle;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 20px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .get-started {
+            background-color: #0077b6;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .get-started:hover {
+            background-color: #005f87;
+        }
+
+        .hero {
+            background-color: #f5f5f5;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            color: #0077b6;
+        }
+
+        .introduction-section {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .introduction-section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .info-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid gray;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .info-tile img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .info-tile h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #0077b6;
+            margin-bottom: 10px;
+        }
+
+        .info-tile p {
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .cta-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .cta-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .cta-content h2 {
+            color: #0077b6;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .cta-content p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .cta-content ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .cta-content li {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .cta-button {
+            background-color: #0077b6;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background-color: #005f87;
+        }
+
+        .cta-image {
+            flex: 1;
+            max-width: 500px;
+            text-align: right;
+        }
+
+        .cta-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer {
+            background: #05559c;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .footer-links,
+        .footer-contact {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li img {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+        }
+
+        .footer-contact {
+            font-family: 'YourFontName', sans-serif;
+        }
+
+        .footer-contact h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .contact-item img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .contact-item p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .footer-social {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .footer-social img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #05559c;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .footer-links-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-links-right a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .footer-links-right a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="/static/d.png" alt="Hindo.in Logo">
+            </div>
+            <ul class="nav-links" style="margin-left: auto;">
+                <li><a href="{{ url_for('landing_page') }}">HOME</a></li>
+                <li><a href="{{ url_for('course') }}">COURSE</a></li>
+                <li><a href="{{ url_for('contact') }}">CONTACT</a></li>
+                <li><a href="{{ url_for('login_page') }}">LOGIN</a></li>
+            </ul>
+            <button class="get-started" onclick="window.location.href='{{ url_for('registration_page') }}'">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="hero">
+        <br> </br>
+        <br> </br>
+        <br> </br>
+        <h1>About Us</h1>
+    </header>
+
+    <!-- Introduction Section -->
+    <section class="introduction-section">
+        <div class="container">
+            <p>"Your premier destination for learning Hindi online. Our mission is to provide accessible, high-quality education that empowers learners to achieve their linguistic and cultural goals. Whether you are a beginner looking to start your Hindi learning journey or an advanced learner aiming to refine your skills, Hindo.in offers a comprehensive range of courses tailored to meet your needs. Join our community today and open the doors to new opportunities, cultural understanding, and personal growth through the power of language."</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="info-section">
+        <div class="info-tile">
+            <img src="/static/new_icon_2.jpg" alt="Learn From Anywhere">
+            <h3>Learn From Anywhere</h3>
+            <p>Accessible from anywhere and anytime enabling practical use in daily life and professional contexts.</p>
+        </div>
+        <div class="info-tile">
+            <img src="/static/new_icon_3.jpg" alt="Online Live Classes">
+            <h3>Online Live Classes</h3>
+            <p>Engage in dynamic live classes with passionate instructors and interactive discussions.</p>
+        </div>
+        <div class="info-tile">
+            <img src="/static/new_icon_5.jpg" alt="Flexible Scheduling">
+            <h3>Flexible Scheduling</h3>
+            <p>Access on-demand lectures, streamable resources and study at your own pace to fit your busy life.</p>
+        </div>
+        <div class="info-tile">
+            <img src="/static/new_icon_1.jpg" alt="Expert Instructors">
+            <h3>Expert Instructors</h3>
+            <p>Learn from experienced Hindi language experts who are passionate about teaching.</p>
+        </div>
+        <div class="info-tile">
+            <img src="/static/new_icon_4.jpg" alt="Progress Tracking">
+            <h3>Progress Tracking</h3>
+            <p>Receive detailed progress reports and track your performance for continuous improvement.</p>
+        </div>
+        <div class="info-tile">
+            <img src="static/new_icon_8.jpg" alt="Enriched Travel Experiences">
+            <h3>Enriched Travel Experiences</h3>
+            <p>Communicate effectively with locals during your travels.</p>
+        </div>
+        <div class="info-tile">
+            <img src="static/new_icon_6.jpg" alt="Cost Effective">
+            <h3>Cost Effective</h3>
+            <p>Save time and money by learning Hindi from the comfort of your home.</p>
+        </div>
+        <div class="info-tile">
+            <img src="static/new_icon_7.jpg" alt="Exam Success">
+            <h3>Exam Success</h3>
+            <p>Acquire comprehensive exam preparation strategies to perform exceptionally in Hindi exams.</p>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Step into the world of Hindi excellence with Hindo today!</h2>
+            <p>Embrace the enriching world of Hindi language and culture with our premier e-learning platform today! Join thousands of learners who have already embarked on their journey to linguistic excellence and cultural appreciation. Take the first step towards success and unlock a future full of exciting opportunities!</p>
+            <ul>
+                <li>Excel in DBHPS exam</li>
+                <li>User-Friendly Platform</li>
+                <li>Live Streaming</li>
+                <li>Tailored Courses</li>
+                <li>Expert Instructors</li>
+                <li>English/Tamil/Telugu/Kannada Medium of Instruction</li>
+            </ul>
+        </div>
+        <div class="cta-image">
+            <img src="/static/boy-studying.jpg" alt="Boy Studying">
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container" style="background: #05559c; color: white; padding: 20px 0;">
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('aboutus') }}"><img src="/static/arrow.png" alt="Arrow"> About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}"><img src="/static/arrow.png" alt="Arrow"> Contact Us</a></li>
+                    <li><a href="{{ url_for('PrivacyPolicy') }}"><img src="/static/arrow.png" alt="Arrow"> Privacy Policy</a></li>
+                    <li><a href="{{ url_for('TermsCondition') }}"><img src="/static/arrow.png" alt="Arrow"> Terms & Condition</a></li>
+                    <li><a href="{{ url_for('otherpolicies') }}"><img src="/static/arrow.png" alt="Arrow"> Other Policies</a></li>
+                    <li><a href="{{ url_for('FAQs') }}"><img src="/static/arrow.png" alt="Arrow"> FAQs & Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <div class="contact-item">
+                    <img src="static/p3.jpg" alt="Location">
+                    <p>123 Street, New York, USA</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p2.jpg" alt="Phone">
+                    <p>+012 345 67890</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p1.jpg" alt="Email">
+                    <p>support@hindo.in</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><img src="/static/p1.jpg" alt="Email"></a>
+                    <a href="#"><img src="static/download.jpg" alt="Facebook"></a>
+                    <a href="#"><img src="static/download-3.jpg" alt="Instagram"></a>
+                    <a href="#"><img src="static/lo3.jpg" alt="LinkedIn"></a>
+                </div>
+            </div>
+        </div>
+        <p>__________________________________________________________________________________________________________________________________________________________________________________________</p>
+        <div class="footer-bottom" style="background: #05559c; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <p><span style="text-decoration: underline;">© Hindo.in</span>, All Right Reserved. Designed By Hindo.in
+            <div class="footer-links-right">
+                <a href="{{ url_for('landing_page') }}" style="color: white; margin-right: 10px;">Home</a>
+                <span style="color: white; margin-right: 10px;">|</span>
+                <a href="{{ url_for('cookies') }}" style="color: white; margin-right: 10px;">Cookies</a>
+                <span style="color: white; margin-right: 10px;">|</span>
+                <a href="{{ url_for('FAQs') }}" style="color: white;">FAQs</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

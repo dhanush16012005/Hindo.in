@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Meeting</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            height: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px; /* Rounded edges for the entire container */
+            overflow: hidden; /* Ensure child elements respect the container's border radius */
+        }
+
+        .video-container {
+            flex: 2;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-top-left-radius: 15px; /* Rounded edges for the video container */
+            border-bottom-left-radius: 15px; /* Rounded edges for the video container */
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 15px; /* Rounded edges for the video element */
+            border-bottom-left-radius: 15px; /* Rounded edges for the video element */
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        button i {
+            font-size: 20px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: none; /* Initially hide chat container */
+            flex-direction: column;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            border-top-right-radius: 15px; /* Rounded edges for the chat container */
+            border-bottom-right-radius: 15px; /* Rounded edges for the chat container */
+        }
+
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #chat-input {
+            padding: 10px;
+            border: none;
+            border-top: 1px solid #ddd;
+            width: calc(100% - 80px);
+        }
+
+        #send-button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none; /* Initially hide modals */
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 15px; /* Rounded edges for the modal content */
+        }
+
+        #name-input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+        }
+
+        #meeting-id-input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+        }
+
+        #name-submit-button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #close-participants-button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="name-modal" class="modal" style="display: flex;">
+        <div class="modal-content">
+            <h2>Enter Your Name and Meeting ID</h2>
+            <input type="text" id="name-input" placeholder="Your Name">
+            <input type="text" id="meeting-id-input" placeholder="Meeting ID">
+            <button id="name-submit-button">Submit</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="video-container">
+            <video id="video" autoplay muted></video>
+            <div class="controls">
+                <button id="toggle-video"><i class="fas fa-video"></i></button>
+                <button id="toggle-audio"><i class="fas fa-microphone"></i></button>
+                <button id="share-screen"><i class="fas fa-desktop"></i></button>
+                <button id="toggle-chat"><i class="fas fa-comments"></i></button>
+                <button id="show-participants"><i class="fas fa-users"></i></button>
+            </div>
+        </div>
+        <div class="chat-container" id="chat-container">
+            <div class="messages" id="messages"></div>
+            <input type="text" id="chat-input" placeholder="Type a message..." />
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <div id="participants-modal" class="modal">
+        <div class="modal-content">
+            <h2>Participants</h2>
+            <ul id="participants-list"></ul>
+            <button id="close-participants-button">Close</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+
+        let videoStream;
+        let userName = '';
+        let meetingId = '';
+
+        document.getElementById('name-submit-button').addEventListener('click', setName);
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+        document.getElementById('toggle-video').addEventListener('click', toggleVideo);
+        document.getElementById('toggle-audio').addEventListener('click', toggleAudio);
+        document.getElementById('share-screen').addEventListener('click', shareScreen);
+        document.getElementById('toggle-chat').addEventListener('click', toggleChat);
+        document.getElementById('show-participants').addEventListener('click', showParticipants);
+        document.getElementById('close-participants-button').addEventListener('click', closeParticipantsModal);
+
+        const participants = [];
+
+        function setName() {
+            const nameInput = document.getElementById('name-input');
+            const meetingIdInput = document.getElementById('meeting-id-input');
+            userName = nameInput.value.trim();
+            meetingId = meetingIdInput.value.trim();
+
+            if (userName && meetingId) {
+                participants.push(userName);
+                document.getElementById('name-modal').style.display = 'none';
+                initializeMeeting();
+            } else {
+                alert('Please enter your name and meeting ID.');
+            }
+        }
+
+        function initializeMeeting() {
+            document.querySelector('.video-container').style.display = 'flex';
+
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+                videoStream = stream;
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+
+                socket.emit('join', { room: meetingId, username: userName });
+            });
+
+            socket.on('message', data => {
+                const messageElement = document.createElement('div');
+                messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.msg}`;
+                document.getElementById('messages').appendChild(messageElement);
+            });
+
+            socket.on('share_screen', data => {
+                const video = document.getElementById('video');
+                const screenStream = new MediaStream();
+                screenStream.addTrack(new RTCVideoTrack(data.track));
+                video.srcObject = screenStream;
+            });
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+
+            if (message) {
+                socket.emit('message', { msg: message, username: userName, room: meetingId });
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function toggleVideo() {
+            if (videoStream) {
+                const videoTrack = videoStream.getVideoTracks()[0];
+                videoTrack.enabled = !videoTrack.enabled;
+                document.getElementById('toggle-video').innerHTML = videoTrack.enabled ? '<i class="fas fa-video"></i>' : '<i class="fas fa-video-slash"></i>';
+            }
+        }
+
+        function toggleAudio() {
+            if (videoStream) {
+                const audioTrack = videoStream.getAudioTracks()[0];
+                audioTrack.enabled = !audioTrack.enabled;
+                document.getElementById('toggle-audio').innerHTML = audioTrack.enabled ? '<i class="fas fa-microphone"></i>' : '<i class="fas fa-microphone-slash"></i>';
+            }
+        }
+
+        function shareScreen() {
+            navigator.mediaDevices.getDisplayMedia({ video: true }).then(screenStream => {
+                socket.emit('share_screen', { track: screenStream.getVideoTracks()[0], room: meetingId });
+                screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+                    socket.emit('share_screen', { track: videoStream.getVideoTracks()[0], room: meetingId });
+                });
+            }).catch(error => {
+                console.error('Error accessing display media.', error);
+            });
+        }
+
+        function toggleChat() {
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function showParticipants() {
+            const participantsList = document.getElementById('participants-list');
+            participantsList.innerHTML = ''; // Clear the list first
+            participants.forEach(participant => {
+                const li = document.createElement('li');
+                li.textContent = participant;
+                participantsList.appendChild(li);
+            });
+            document.getElementById('participants-modal').style.display = 'flex';
+        }
+
+        function closeParticipantsModal() {
+            document.getElementById('participants-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies Policy - Hindo.in</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            font-family: 'Geologica', sans-serif; /* Primary Typeface */
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        nav {
+            background-color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 60px; /* Increase the logo size */
+            vertical-align: middle;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .get-started {
+            background-color: #0077b6;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .get-started:hover {
+            background-color: #005f87;
+        }
+
+        .faq-section {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 120px auto; /* Adjusted to account for fixed nav */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-section h3 {
+            font-family: 'Montserrat', sans-serif; /* Secondary Typeface */
+            text-align: center;
+            color: #258CD9;
+            margin-bottom: 20px;
+        }
+
+        .faq {
+            background-color: white;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .faq h4 {
+            cursor: pointer;
+            margin: 0;
+            padding: 15px;
+            background-color: #258CD9;
+            color: white;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq h4:hover {
+            background-color: #1a6ca8;
+        }
+
+        .faq p {
+            padding: 15px;
+            display: none;
+            margin: 0;
+            background-color: #fff;
+            color: #333;
+            border-top: 1px solid #ddd;
+        }
+
+        footer {
+            background: #05559c;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .footer-links,
+        .footer-contact {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: white; /* Make heading text white */
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            text-decoration: none;
+            color: white; /* Make link text white */
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li img {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+        }
+
+        .footer-contact .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .footer-contact .contact-item img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .footer-contact .contact-item p {
+            margin: 0;
+            font-size: 1em;
+            color: white; /* Make contact item text white */
+        }
+
+        .footer-social {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .footer-social img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #05559c;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            font-size: 1em;
+            color: white; /* Make bottom text white */
+        }
+
+        .footer-links-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-links-right a {
+            color: white; /* Make right link text white */
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .footer-links-right a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="/static/d.png" alt="Hindo.in Logo">
+            </div>
+            <ul class="nav-links" style="margin-left: auto;">
+                <li><a href="{{ url_for('landing_page') }}">HOME</a></li>
+                <li><a href="{{ url_for('course') }}">COURSE</a></li>
+                <li><a href="{{ url_for('contact') }}">CONTACT</a></li>
+                <li><a href="{{ url_for('login_page') }}">LOGIN</a></li>
+            </ul>
+            <button class="get-started" onclick="window.location.href='{{ url_for('registration_page') }}'">Get Started</button>
+        </div>
+    </nav>
+
+    <section class="faq-section">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq">
+            <h4>1. What is Hindo.in?</h4>
+            <p>Hindo.in is an online platform that offers comprehensive courses to help you learn Hindi language skills efficiently and effectively.</p>
+        </div>
+        <div class="faq">
+            <h4>2. What kind of courses do you offer?</h4>
+            <p>We offer a variety of courses, including basic Hindi, spoken Hindi, and preparation for Dakshin Bharat Hindi Prachar Sabha exams.</p>
+        </div>
+        <div class="faq">
+            <h4>3. How do I access the courses?</h4>
+            <p>Courses can be accessed through our online platform once you register and log in. You can study at your own pace with our flexible scheduling.</p>
+        </div>
+        <div class="faq">
+            <h4>4. What technology or software do I need to use the platform?</h4>
+            <p>You need a computer or mobile device with an internet connection. Our platform works on most modern web browsers.</p>
+        </div>
+        <div class="faq">
+            <h4>5. Is there a mobile app available?</h4>
+            <p>Currently, we do not have a mobile app, but our website is mobile-friendly and can be accessed via any mobile browser.</p>
+        </div>
+        <div class="faq">
+            <h4>6. Can I track my progress?</h4>
+            <p>Yes, our platform provides detailed progress reports and tracking to help you monitor your learning journey.</p>
+        </div>
+        <div class="faq">
+            <h4>7. How do I contact instructors if I have questions?</h4>
+            <p>You can contact instructors via the platform's messaging system. They are available to help you with any questions or concerns.</p>
+        </div>
+        <div class="faq">
+            <h4>8. How can I make payments for the courses?</h4>
+            <p>Payments can be made through various methods, including credit/debit cards and online payment systems.</p>
+        </div>
+        <div class="faq">
+            <h4>9. Is technical support available if I encounter issues?</h4>
+            <p>Yes, we offer 24/7 technical support to assist you with any issues you may encounter.</p>
+        </div>
+        <div class="faq">
+            <h4>10. How much does it cost to enroll in a course?</h4>
+            <p>The cost varies depending on the course. Please visit our courses page for detailed pricing information.</p>
+        </div>
+    </section>
+    
+    <script>
+        document.querySelectorAll('.faq h4').forEach(item => {
+            item.addEventListener('click', () => {
+                const p = item.nextElementSibling;
+                p.style.display = p.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+
+    <footer>
+        <div class="footer-container" style="background: #05559c; color: white; padding: 20px 0;">
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('aboutus') }}">
+                        <img src="/static/arrow.png" alt="Arrow"> About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">
+                        <img src="/static/arrow.png" alt="Arrow"> Contact Us</a></li>
+                    <li><a href="{{ url_for('PrivacyPolicy') }}">
+                        <img src="/static/arrow.png" alt="Arrow"> Privacy Policy</a></li>
+                    <li><a href="{{ url_for('TermsCondition') }}">
+                        <img src="/static/arrow.png" alt="Arrow"> Terms & Condition</a></li>
+                    <li><a href="{{ url_for('otherpolicies') }}">
+                        <img src="/static/arrow.png" alt="Arrow"> Other Policies</a></li>
+                    <li><a href="{{ url_for('FAQs') }}">
+                        <img src="/static/arrow.png" alt="Arrow"> FAQs & Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <div class="contact-item">
+                    <img src="static/p3.jpg" alt="Location"><p>123 Street, New York, USA</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p2.jpg" alt="Phone"><p>+012 345 67890</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p1.jpg" alt="Email"><p>support@hindo.in</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><img src="/static/p1.jpg" alt="Email"></a>
+                    <a href="#"><img src="static/download.jpg" alt="Facebook"></a>
+                    <a href="#"><img src="static/download-3.jpg" alt="Instagram"></a>
+                    <a href="#"><img src="static/lo3.jpg" alt="LinkedIn"></a>
+                </div>
+            </div>
+        </div>
+        <p>____________________________________________________________________________________________________________________________________________________________________________</p>
+        <div class="footer-bottom" style="background: #05559c; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <p><span style="text-decoration: underline;">© Hindo.in</span>, All Right Reserved. Designed By Hindo.in
+                <div class="footer-links-right">
+                    <a href="{{ url_for('landing_page') }}" style="color: white; margin-right: 10px;">Home</a>
+                    <span style="color: white; margin-right: 10px;">|</span>
+                    <a href="{{ url_for('cookies') }}" style="color: white; margin-right: 10px;">Cookies</a>
+                    <span style="color: white; margin-right: 10px;">|</span>
+                    <a href="{{ url_for('FAQs') }}" style="color: white;">FAQs</a>
+                </div>
+        </div>
+    </footer>
+</body>
+</html>

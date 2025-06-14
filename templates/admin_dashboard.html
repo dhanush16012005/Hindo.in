@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hindi E-Learning Platform</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .navbar img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .navbar button {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dashboard {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 60px; /* Adjusted to start below the navbar */
+            bottom: 0;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            transform: translateX(-100%);
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Geologica', sans-serif;
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 220px;
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .content.full-width {
+            margin-left: 0;
+        }
+
+        .header {
+            background-color: #258cd9;
+            color: white;
+            padding: 28px;
+            text-align: center;
+            font-family: 'Geologica', sans-serif;
+        }
+
+        .section {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center; /* Centering the content inside the section */
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            margin: 10px 0;
+        }
+
+        .card p {
+            margin: 5px 0;
+            text-align: center; /* Center the text inside the card */
+        }
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center; /* Center the profile cards */
+        }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        .profile-card h3 {
+            margin: 0;
+        }
+
+        .profile-card p {
+            margin: 5px 0;
+        }
+
+        .button-group a,
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Geologica', sans-serif;
+            font-size: 16px;
+        }
+
+        .button-group .btn-primary,
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .button-group .btn-primary:hover,
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .button-group .btn-danger,
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .button-group .btn-danger:hover,
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .date-time-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .date-time-container div {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .date-time-container div:last-child {
+            margin-right: 0;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .navbar .toggle-button {
+                display: block;
+            }
+
+            .content.full-width {
+                padding-left: 0;
+            }
+        }
+
+        .section h2, .section h3 {
+            font-size: 1.5em; /* Increase the font size */
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column; /* Arrange profile cards vertically */
+            align-items: center; /* Center profile cards horizontally */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="/static/Logo Mark Colour.jpg" alt="Logo">
+        <button class="toggle-button" onclick="toggleSidebar()">☰</button>
+    </div>
+    <div class="dashboard">
+        <div class="sidebar" id="sidebar">
+            <a href="#" class="active" onclick="loadPage('dashboard')">Dashboard</a>
+            <a href="#" onclick="loadPage('course-batch')">Course Batch</a>
+            <a href="#" onclick="loadPage('profiles')">Profiles</a>
+            <a href="#" onclick="loadPage('recruitment')">Recruitment</a>
+            <a href="#" onclick="loadPage('admin-announcement')">Admin Announcement</a>
+            <a onclick="window.location.href='{{ url_for('landing_page') }}'">Logout</a>
+        </div>
+        <div class="content" id="content">
+            <div class="header">
+                <h1>Admin Dashboard</h1>
+            </div>
+            <div id="dashboard" class="section">
+                <h2>Welcome to Hindi E-Learning Platform</h2>
+                <p>Manage courses, users, announcements, and more from this dashboard.</p>
+                <div class="cards" id="courses">
+                    <!-- Course cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="course-batch" class="section" style="display: none;">
+                <h2>Create Batch</h2>
+                <form action="{{ url_for('create_batch') }}" method="POST">
+                    <div>
+                        <input type="text" id="batch-id" name="batch_id" placeholder="Batch ID" style="width: 100%; margin-bottom: 10px;">
+                    </div>
+                    <div>
+                        <label for="batch-course-name">Course Name:</label>
+                        <select id="batch-course-name" name="batch-course-name" style="width: 100%; margin-bottom: 10px;">
+                            <!-- Options will be dynamically added here -->
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" id="teacher-name" name="teacher-name" placeholder="Teacher Name" style="width: 100%; margin-bottom: 10px;">
+                    </div>
+                    <div>
+                        <input type="text" id="teacher-id" name="teacher-id" placeholder="Teacher ID" style="width: 100%; margin-bottom: 10px;">
+                    </div>
+                    <div class="date-time-container">
+                        <div>
+                            <label for="start-date">Start Date:</label>
+                            <input type="date" id="start-date" name="start-date" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label for="end-date">End Date:</label>
+                            <input type="date" id="end-date" name="end-date" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="date-time-container" style="margin-top: 10px;">
+                        <div>
+                            <label for="start-time">Start Time:</label>
+                            <input type="time" id="start-time" name="start-time" style="width: 100%;">
+                        </div>
+                        <div>
+                            <label for="end-time">End Time:</label>
+                            <input type="time" id="end-time" name="end-time" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div>
+                        <input type="number" id="class-limit" name="class-limit" placeholder="Class Limit" style="width: 100%; margin-top: 10px;">
+                    </div>
+                    <div>
+                        <label for="course-price">Select Course Price:</label>
+                        <select id="course-price" name="course-price" style="width: 100%; margin-bottom: 10px;">
+                            <option value="price1">Price 1</option>
+                            <option value="price2">Price 2</option>
+                            <option value="price3">Price 3</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Create Batch</button>
+                </form>
+            </div>
+            <div id="profiles" class="section" style="display: none;">
+                <h2>Profiles</h2>
+                <div>
+                    <h3>Teacher Profiles</h3>
+                    <div id="teacher-profiles" class="profile-section">
+                        <!-- Teacher profiles will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                <div>
+                    <h3>Student Profiles</h3>
+                    <div id="student-profiles" class="profile-section">
+                        <!-- Student profiles will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div id="recruitment" class="section" style="display: none;">
+                <h2>Recruitment</h2>
+                <div class="cards" id="recruitment-list">
+                    <!-- Recruitment cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="admin-announcement" class="section admin-announcement-section" style="display: none;">
+                <h2>Admin Announcement</h2>
+                <textarea id="admin-announcement-title" placeholder="Enter the title here..." style="width: 100%; margin-bottom: 10px;"></textarea>
+                <textarea id="admin-announcement-input" placeholder="Enter your announcement here..." style="width: 100%; margin-bottom: 10px;"></textarea>
+                <button onclick="saveAdminAnnouncement()" class="btn btn-primary" style="width: 100%;">Announce</button>
+                <div id="admin-announcement-list">
+                    <!-- Admin announcements will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            sidebar.classList.toggle('active');
+            content.classList.toggle('full-width');
+        }
+
+        function loadPage(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+
+            const links = document.querySelectorAll('.sidebar a');
+            links.forEach(link => link.classList.remove('active'));
+            document.querySelector(`.sidebar a[onclick="loadPage('${sectionId}')"]`).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchCourses();
+            fetchProfiles();
+            fetchTeachers();
+            populateCourseDropdown();
+            fetchAdminAnnouncements();
+        });
+
+        function fetchCourses() {
+            const courses = [
+                { name: 'Basic Hindi Reading and Writing Course', lessons: 11 },
+                { name: 'spoken Hindi', lessons: 11 },
+                { name: 'Prathamic', lessons: 5 },
+                { name: 'Madhyama', lessons: 5 },
+                { name: 'RashtraBasha', lessons: 5 },
+                { name: 'praveshika', lessons: 5 },
+                { name: 'visharadh poorvardh', lessons: 5 },
+                { name: 'visharadh uttarardh', lessons: 5 },
+                { name: 'praveen poorvardh', lessons: 6 },
+                { name: 'praveen uttarardh', lessons: 5 }
+            ];
+
+            fetch('/api/get_published_courses')
+                .then(response => response.json())
+                .then(data => {
+                    const publishedCourses = data.courses;
+                    const coursesContainer = document.getElementById('courses');
+                    coursesContainer.innerHTML = '';
+
+                    courses.forEach(course => {
+                        const courseCard = document.createElement('div');
+                        courseCard.classList.add('card');
+
+                        const isPublished = publishedCourses.includes(course.name);
+                        const publishBtn = document.createElement('button');
+                        publishBtn.classList.add('publish-btn');
+                        publishBtn.innerHTML = isPublished ? 'Unpublish' : 'Publish';
+                        publishBtn.style.backgroundColor = isPublished ? '#FF6347' : '#32CD32';
+                        publishBtn.onclick = () => togglePublish(course.name, publishBtn);
+
+                        courseCard.innerHTML = `
+                            <h3>${course.name}</h3>
+                            <p>${course.lessons} Lessons</p>
+                        `;
+                        courseCard.appendChild(publishBtn);
+                        coursesContainer.appendChild(courseCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching published courses:', error));
+        }
+
+        function fetchProfiles() {
+            fetch('/api/get_teacher_profiles')
+                .then(response => response.json())
+                .then(data => {
+                    const teachers = data.teachers;
+                    const students = data.students;
+                    const studentProfilesContainer = document.getElementById('student-profiles');
+                    const teacherProfilesContainer = document.getElementById('teacher-profiles');
+
+                    studentProfilesContainer.innerHTML = '';
+                    teacherProfilesContainer.innerHTML = '';
+
+                    teachers.forEach(teacher => {
+                        const teacherCard = document.createElement('div');
+                        teacherCard.classList.add('profile-card');
+
+                        teacherCard.innerHTML = `
+                            <div>
+                                <h3>${teacher.name}</h3>
+                                <p>${teacher.email}</p>
+                            </div>
+                        `;
+
+                        teacherProfilesContainer.appendChild(teacherCard);
+                    });
+
+                    students.forEach(student => {
+                        const studentProfileCard = document.createElement('div');
+                        studentProfileCard.classList.add('profile-card');
+
+                        studentProfileCard.innerHTML = `
+                            <div>
+                                <h3>${student.name}</h3>
+                                <p>${student.email}</p>
+                            </div>
+                        `;
+
+                        studentProfilesContainer.appendChild(studentProfileCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching profiles:', error));
+        }
+
+        function fetchTeachers() {
+            fetch('/api/get_teachers')
+                .then(response => response.json())
+                .then(data => {
+                    const teachers = data.teachers;
+                    const recruitmentContainer = document.getElementById('recruitment-list');
+                    recruitmentContainer.innerHTML = '';
+
+                    teachers.forEach(teacher => {
+                        const teacherCard = document.createElement('div');
+                        teacherCard.classList.add('card');
+                        teacherCard.innerHTML = `
+                            <h3>${teacher.fullname}</h3>
+                            <p>Email: ${teacher.email}</p>
+                            <p>Qualification: ${teacher.qualification}</p>
+                            <p>Language Proficiency: ${teacher.language_proficiency}</p>
+                            <p>Experience: ${teacher.experience}</p>
+                            <p>Specializations: ${teacher.specializations}</p>
+                            <p>Institution: ${teacher.institution}</p>
+                            <p>Availability From: ${teacher.availability_from}</p>
+                            <p>Availability To: ${teacher.availability_to}</p>
+                            <p>Phone: ${teacher.phone}</p>
+                            <p>District: ${teacher.district}</p>
+                            <button class="btn btn-primary" onclick="recruitTeacher(${teacher.id})">Recruit</button>
+                            <button class="btn btn-danger" onclick="unrecruitTeacher(${teacher.id}, this)">Unrecruit</button>
+                        `;
+                        recruitmentContainer.appendChild(teacherCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching teachers:', error));
+        }
+
+        function populateCourseDropdown() {
+            fetch('/api/get_published_courses')
+                .then(response => response.json())
+                .then(data => {
+                    const publishedCourses = data.courses;
+                    const courseDropdown = document.getElementById('batch-course-name');
+                    courseDropdown.innerHTML = '';
+
+                    publishedCourses.forEach(course => {
+                        const option = document.createElement('option');
+                        option.value = course;
+                        option.textContent = course;
+                        courseDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching published courses:', error));
+        }
+
+        function saveAdminAnnouncement() {
+            const title = document.getElementById('admin-announcement-title').value;
+            const announcement = document.getElementById('admin-announcement-input').value;
+
+            if (title && announcement) {
+                fetch('/admin_announcement', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: title, announcement: announcement })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert('Announcement saved successfully!');
+                            document.getElementById('admin-announcement-title').value = '';
+                            document.getElementById('admin-announcement-input').value = '';
+                            fetchAdminAnnouncements();
+                        } else {
+                            alert('Error saving announcement: ' + data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                alert('Please enter both title and announcement.');
+            }
+        }
+
+        function fetchAdminAnnouncements() {
+            fetch('/get_admin_announcements')
+                .then(response => response.json())
+                .then(data => {
+                    const announcements = data.announcements;
+                    const announcementList = document.getElementById('admin-announcement-list');
+                    announcementList.innerHTML = '';
+
+                    announcements.forEach(announcement => {
+                        const announcementCard = document.createElement('div');
+                        announcementCard.classList.add('card');
+                        announcementCard.innerHTML = `
+                            <h3>${announcement.title}</h3>
+                            <p>${announcement.announcement}</p>
+                            <p>${new Date(announcement.date).toLocaleString()}</p>
+                            <button class="btn btn-danger" onclick="deleteAdminAnnouncement(${announcement.id})">Delete</button>
+                        `;
+                        announcementList.appendChild(announcementCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching admin announcements:', error));
+        }
+
+        function deleteAdminAnnouncement(announcementId) {
+            fetch(`/delete_admin_announcement/${announcementId}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        fetchAdminAnnouncements(); // Refresh the announcements list
+                    } else {
+                        alert('Failed to delete announcement: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Error deleting announcement:', error));
+        }
+
+        function togglePublish(courseName, button) {
+            const action = button.innerHTML === 'Publish' ? 'publish' : 'unpublish';
+            fetch(`/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ course_name: courseName })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        button.innerHTML = action === 'publish' ? 'Unpublish' : 'Publish';
+                        button.style.backgroundColor = action === 'publish' ? '#FF6347' : '#32CD32';
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function recruitTeacher(teacherId) {
+            fetch(`/recruit_teacher/${teacherId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        fetchTeachers();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function unrecruitTeacher(teacherId, button) {
+            fetch(`/unrecruit_teacher/${teacherId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        const card = button.closest('.card');
+                        card.remove();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

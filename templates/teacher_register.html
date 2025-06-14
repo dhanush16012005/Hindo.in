@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Registration</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            width: 100%;
+            border: 1px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+            background-color: transparent;
+            overflow-y: auto;
+            max-height: 90vh;
+            margin: 20px;
+        }
+
+        .form-header {
+            background-color: #2a7ab9; /* Tufts Blue */
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 400;
+            color: #3c4655;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .availability-group,
+        .schedule-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .availability-group input[type="text"],
+        .schedule-group input[type="text"] {
+            flex: 1;
+            padding-right: 2rem;
+        }
+
+        .consent-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .consent-container input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .consent-container label {
+            font-size: 0.9rem;
+            color: #3c4655;
+        }
+
+        button {
+            width: 100%;
+            background-color: #2a7ab9; /* Tufts Blue */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1e5e8d; /* Darker Tufts Blue */
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="date"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus,
+        input[type="time"]:focus,
+        select:focus {
+            border-color: #2a7ab9; /* Tufts Blue */
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+                margin-top: 10px;
+                align-self: start;
+            }
+        }
+
+        .header-logo img {
+            width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .flash-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .flash-message.visible {
+            display: block;
+        }
+
+        .terms-container {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .terms-container textarea {
+            width: 100%;
+            height: 300px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            padding: 10px;
+        }
+
+        .modal-header {
+            background-color: #2a7ab9; /* Tufts Blue */
+            color: white;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <div class="header-logo">
+                <img src="/static/Logo Mark White.png" alt="Logo">
+            </div>
+            <h2>Teacher Registration</h2>
+        </div>
+        <div class="flash-message" id="flash-message"></div>
+        <form action="#" method="POST" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="qualification">Educational Qualification:</label>
+                <input type="text" id="qualification" name="qualification" required>
+            </div>
+            <div class="form-group">
+                <label for="language_proficiency">Language Proficiency:</label>
+                <select id="language_proficiency" name="language_proficiency" required>
+                    <option value="" disabled selected>Select Proficiency</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="specializations">Specializations:</label>
+                <select id="specializations" name="specializations" required>
+                    <option value="" disabled selected>Select Specialization</option>
+                    <option value="Spoken">Spoken</option>
+                    <option value="Basics">Basics</option>
+                    <option value="DBHPS Exam">DBHPS Exam</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="experience">Teaching Experience (years):</label>
+                <input type="number" id="experience" name="experience" required>
+            </div>
+            <div class="form-group">
+                <label for="institution">Institution/Organisation Name:</label>
+                <input type="text" id="institution" name="institution" required>
+            </div>
+            <div class="form-group">
+                <label for="availability">Availability:</label>
+                <div class="availability-group">
+                    <input type="text" id="availability_start" name="availability_start" class="timepicker" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="schedule">Schedule:</label>
+                <div class="schedule-group">
+                    <div>
+                        <label for="availability_from">From:</label>
+                        <input type="text" id="availability_from" name="availability_from" class="timepicker" required>
+                    </div>
+                    <div>
+                        <label for="availability_to">To:</label>
+                        <input type="text" id="availability_to" name="availability_to" class="timepicker" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone No.:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <select id="state" name="state" required onchange="populateDistricts()">
+                    <option value="" disabled selected>Select State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="district">District:</label>
+                <select id="district" name="district" required>
+                    <option value="" disabled selected>Select District</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="consent-checkbox">Consent:</label>
+                <div class="consent-container">
+                    <input type="checkbox" id="consent-checkbox" name="consent" required>
+                    <label for="consent-checkbox">I agree to the <a href="#" id="privacy-policy-link">Privacy Policy</a> and give my consent.</label>
+                </div>
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6LdblhYqAAAAAJglKlf3IcbTnxrU9IR7-sCK4RwJ"></div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal for Policy Documents -->
+    <div id="policy-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Policy Documents</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>Privacy Policy and Consent</h3>
+                <p>[Insert the content from the "Privacy Policy and Consent for Hindo" document here.]</p>
+                
+                <h3>Terms of Use</h3>
+                <p>[Insert the content from the "Terms of Use" document here.]</p>
+                
+                <h3>User Generated Content Policy</h3>
+                <p>[Insert the content from the "User Generated Content Policy" document here.]</p>
+                
+                <h3>Age Verification and Children's Policy</h3>
+                <p>[Insert the content from the "Age Verification and Children" document here.]</p>
+                
+                <h3>Cookie Policy</h3>
+                <p>[Insert the content from the "Cookies policy" document here.]</p>
+                
+                <h3>Refund and Cancellation Policy</h3>
+                <p>[Insert the content from the "Refund and Cancellation Policy for Hindo" document here.]</p>
+                
+                <h3>Copyright and DMCA Policy</h3>
+                <p>[Insert the content from the "Copyright and DMCA Policy for Hindo" document here.]</p>
+                
+                <h3>Dispute Resolution Policy</h3>
+                <p>[Insert the content from the "Dispute Resolution Policy for Hindo" document here.]</p>
+                
+                <h3>Notice of Changes to Policies</h3>
+                <p>[Insert the content from the "Notice of Changes to Policies" document here.]</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        const districtsByState = {
+            "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Prakasam", "Nellore", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
+            "Karnataka": ["Bagalkot", "Ballari (Bellary)", "Belagavi (Belgaum)", "Bengaluru (Bangalore) Rural", "Bengaluru (Bangalore) Urban", "Bidar", "Chamarajanagar", "Chikballapur", "Chikkamagaluru (Chikmagalur)", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Hassan", "Haveri", "Kalaburagi (Gulbarga)", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysuru (Mysore)", "Raichur", "Ramanagara", "Shivamogga (Shimoga)", "Tumakuru (Tumkur)", "Udupi", "Uttara Kannada (Karwar)", "Vijayapura (Bijapur)", "Yadgir"],
+            "Kerala": ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
+            "Tamil Nadu": ["Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kancheepuram", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"],
+            "Telangana": ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhoopalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Kumuram Bheem", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal (Rural)", "Warangal (Urban)", "Yadadri Bhuvanagiri"]
+        };
+
+        function populateDistricts() {
+            const stateSelect = document.getElementById('state');
+            const districtSelect = document.getElementById('district');
+            const selectedState = stateSelect.value;
+            const districts = districtsByState[selectedState] || [];
+
+            districtSelect.innerHTML = '<option value="" disabled selected>Select District</option>';
+
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+        }
+
+        function validateForm() {
+            var consentCheckbox = document.getElementById('consent-checkbox');
+            var recaptchaResponse = grecaptcha.getResponse();
+            if (!consentCheckbox.checked) {
+                alert("You must agree to the Privacy Policy and give your consent before registering.");
+                return false;
+            }
+            if (recaptchaResponse.length === 0) {
+                alert("Please verify that you are not a robot.");
+                return false;
+            }
+            return true;
+        }
+
+        document.getElementById('privacy-policy-link').onclick = function(event) {
+            event.preventDefault();
+            openModal();
+        };
+
+        function openModal() {
+            document.getElementById('policy-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('policy-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('policy-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        $(document).ready(function(){
+            $('.timepicker').flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K",
+                time_24hr: false
+            });
+        });
+    </script>
+</body>
+</html>

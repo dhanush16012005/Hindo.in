@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Announcements</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f2f7ff;
+        }
+
+        .header {
+            background-color: #258cd9;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            text-align: center;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .course-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f2f7ff;
+            color: #258cd9;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #258cd9;
+        }
+
+        .course-banner img {
+            max-height: 60px;
+            margin-right: 20px;
+        }
+
+        .posted-announcements {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .posted-announcements h2 {
+            margin-top: 0;
+        }
+
+        .posted-announcements ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .posted-announcements ul li {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .posted-announcements ul li h3 {
+            margin: 0 0 10px;
+        }
+
+        .posted-announcements ul li p {
+            margin: 5px 0;
+        }
+
+        video,
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="course-title">Student Announcements</h1>
+    </div>
+    <div class="main-content">
+        <div class="course-banner">
+            <img src="/static/d.png" alt="Course Image">
+            <div>
+                <h2 id="course-name"></h2>
+                <p id="batch-id"></p>
+            </div>
+        </div>
+        <div class="posted-announcements">
+            <h2>Announcements</h2>
+            <ul id="announcements-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseName = urlParams.get('course_name');
+            const batchId = urlParams.get('batch_id');
+            const teacherId = urlParams.get('teacher_id');
+            if (courseName && batchId && teacherId) {
+                document.getElementById('course-name').textContent = courseName;
+                document.getElementById('batch-id').textContent = `Batch ID: ${batchId}`;
+                document.getElementById('course-title').textContent = `${courseName} - Batch ID: ${batchId}`;
+                await loadAnnouncements(courseName, batchId, teacherId);
+            }
+        });
+
+        let announcements = [];
+
+        async function loadAnnouncements(courseName, batchId, teacherId) {
+            try {
+                const response = await fetch(`/get_student_announcements?course_name=${courseName}&batch_id=${batchId}&teacher_id=${teacherId}`);
+                const result = await response.json();
+                if (result.status === 'success') {
+                    announcements = result.announcements;
+                    renderAnnouncements();
+                } else {
+                    alert(result.message + ': ' + result.details);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while fetching the announcements');
+            }
+        }
+
+        function renderAnnouncements() {
+            const list = document.getElementById('announcements-list');
+            list.innerHTML = '';
+            announcements.forEach(announcement => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <h3>${announcement.title || 'No Title'}</h3>
+                    <p>${announcement.announcement || 'No Content'}</p>
+                    ${announcement.drive_link ? `<p>Google Drive link: <a href="${announcement.drive_link}" target="_blank">${announcement.drive_link}</a></p>` : ''}
+                `;
+                list.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>

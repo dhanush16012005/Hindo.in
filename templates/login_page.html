@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff; /* Background color set to white */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 360px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center; /* Center the logo */
+        }
+
+        .login-title {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .form-input {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-input input {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            outline: none;
+            font-size: 16px;
+            transition: all 0.5s ease;
+        }
+
+        .form-input input:focus,
+        .form-input input:not(:placeholder-shown) {
+            background: #ffffff;
+            border-color: #007bff;
+        }
+
+        .form-input label {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #999;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input input:focus + label,
+        .form-input input:not(:placeholder-shown) + label {
+            top: -27px;
+            left: 10px;
+            font-size: 20px;
+            color: #666;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .login-button {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .login-button:hover {
+            background: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: opacity 0.3s ease;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            width: 100px; /* Adjust the size as needed */
+            margin-bottom: 20px; /* Add some space below the logo */
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="/static/Logo Mark Colour.png" alt="Logo" class="logo"> <!-- Add your logo here -->
+        <center><div class="login-title">Login</div></center>
+        <form class="login-form" id="loginForm" action="{{ url_for('login_page') }}" method="post">
+            <div class="form-input">
+                <input type="email" id="email" name="email" placeholder=" " required>
+                <label for="email">Email</label>
+            </div>
+            <div class="form-input">
+                <input type="password" id="password" name="password" placeholder=" " required>
+                <label for="password">Password</label>
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">&#128065;</button>
+            </div>
+            <div class="error-message" id="errorMessage">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <p class="{{ category }}">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <button type="submit" class="login-button">Log in</button>
+            <div class="login-footer">
+                <p>Don't have an account? <a href="{{ url_for('registration_page') }}">Sign up</a></p>
+            </div>
+        </form>
+    </div>
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies Policy - Hindo.in</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        body {
+            font-family: 'Geologica', sans-serif; /* Primary Typeface */
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        nav {
+            background-color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo img {
+            height: 60px; /* Increase the logo size */
+            vertical-align: middle;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 20px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .get-started {
+            background-color: #0077b6;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .get-started:hover {
+            background-color: #005f87;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #0077b6;
+        }
+
+        p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #05559c;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .footer-links,
+        .footer-contact {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: white; /* Make heading text white */
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            text-decoration: none;
+            color: white; /* Make link text white */
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links ul li img {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+        }
+
+        .footer-contact .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .footer-contact .contact-item img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .footer-contact .contact-item p {
+            margin: 0;
+            font-size: 1em;
+            color: white; /* Make contact item text white */
+        }
+
+        .footer-social {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .footer-social img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #05559c;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            font-size: 1em;
+            color: white; /* Make bottom text white */
+        }
+
+        .footer-links-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-links-right a {
+            color: white; /* Make right link text white */
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .footer-links-right a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="/static/d.png" alt="Hindo.in Logo">
+            </div>
+            <ul class="nav-links" style="margin-left: auto;">
+                <li><a href="{{ url_for('landing_page') }}">HOME</a></li>
+                <li><a href="{{ url_for('course') }}">COURSE</a></li>
+                <li><a href="{{ url_for('contact') }}">CONTACT</a></li>
+                <li><a href="{{ url_for('login_page') }}">LOGIN</a></li>
+            </ul>
+            <button class="get-started" onclick="window.location.href='{{ url_for('registration_page') }}'">Get Started</button>
+        </div>
+    </nav>
+
+    <div class="content">
+        <center><h1>Cookies Policy</h1></center>
+        <p><strong>Effective Date: 02.10.2023</strong></p>
+        <p>This Cookie Policy ("Policy") explains how hindo.in ("we," "us," or "our") uses cookies and similar technologies on our website and e-learning platform ("Platform"). By using our Platform, you consent to the use of cookies as described in this Policy.</p>
+        
+        <h2>What are Cookies:</h2>
+        <p>1.1 Cookies are small text files that are placed on your device (computer, tablet, smartphone) when you visit websites. They help us recognize your device and gather information about your interactions with our Platform.</p>
+        
+        <h2>Types of Cookies We Use:</h2>
+        <ul>
+            <li><strong>2.1 Essential Cookies:</strong> These cookies are necessary for the basic functioning of our Platform and enable you to navigate and use its features.</li>
+            <li><strong>2.2 Analytical and Performance Cookies:</strong> These cookies allow us to analyze how users interact with our Platform, track user preferences, and improve its performance and usability.</li>
+            <li><strong>2.3 Functionality Cookies:</strong> These cookies enhance your experience on our Platform by remembering your preferences and choices (such as language or region).</li>
+            <li><strong>2.4 Advertising and Targeting Cookies:</strong> These cookies are used to deliver relevant advertisements to you and track the effectiveness of our marketing campaigns.</li>
+        </ul>
+        
+        <h2>Third-Party Cookies:</h2>
+        <p>3.1 We may also allow third-party service providers to place cookies on your device. These providers may use cookies for various purposes, including analytics, advertising, and social media integration. Third-party cookies are subject to the respective privacy policies of these providers.</p>
+        
+        <h2>Your Cookie Choices:</h2>
+        <ul>
+            <li><strong>4.1</strong> You can manage or delete cookies through your browser settings. However, disabling certain cookies may affect the functionality of our Platform.</li>
+            <li><strong>4.2</strong> Many browsers offer a "Do Not Track" feature that signals websites not to track your online activities. Our Platform currently does not respond to such signals.</li>
+        </ul>
+        
+        <h2>Cookie Consent:</h2>
+        <p>5.1 By continuing to use our Platform, you consent to the use of cookies as described in this Policy. You can withdraw your consent at any time by adjusting your browser settings.</p>
+        
+        <h2>Updates to this Policy:</h2>
+        <p>6.1 We may update this Cookie Policy from time to time to reflect changes in technology, applicable laws, or our practices. Any updates will be posted on this page with the revised effective date.</p>
+        
+        <h2>Contact Us:</h2>
+        <p>7.1 If you have any questions or concerns regarding this Cookie Policy, please contact us at <a href="mailto:support@hindo.in">support@hindo.in</a></p>
+    </div>
+
+    <footer>
+        <div class="footer-container" style="background: #05559c; color: white; padding: 20px 0;">
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('aboutus') }}
+                        "><img src="/static/arrow.png" alt="Arrow"> About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}"><img src="/static/arrow.png" alt="Arrow"> Contact Us</a></li>
+                    <li><a href="{{ url_for('PrivacyPolicy') }}
+                        "><img src="/static/arrow.png" alt="Arrow"> Privacy Policy</a></li>
+                    <li><a href="{{ url_for('TermsCondition') }}
+                        "><img src="/static/arrow.png" alt="Arrow"> Terms & Condition</a></li>
+                    <li><a href="{{ url_for('otherpolicies') }}
+                        "><img src="/static/arrow.png" alt="Arrow"> Other Policies</a></li>
+                    <li><a href="{{ url_for('FAQs') }}
+                        "><img src="/static/arrow.png" alt="Arrow"> FAQs & Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <div class="contact-item">
+                    <img src="static/p3.jpg" alt="Location"><p>123n Street, New York, USA</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p2.jpg" alt="Phone"><p>+012 345 67890</p>
+                </div>
+                <div class="contact-item">
+                    <img src="/static/p1.jpg" alt="Email"><p>support@hindo.in</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><img src="/static/p1.jpg" alt="Email"></a>
+                    <a href="#"><img src="static/download.jpg" alt="Facebook"></a>
+                    <a href="#"><img src="static/download-3.jpg" alt="Instagram"></a>
+                    <a href="#"><img src="static/lo3.jpg" alt="LinkedIn"></a>
+                </div>
+            </div>
+        </div>
+        <p>____________________________________________________________________________________________________________________________________________________________________________</p>
+        <div class="footer-bottom">
+            <p><span style="text-decoration: underline;">© Hindo.in</span>, All Right Reserved. Designed By Hindo.in</p>
+            <div class="footer-links-right">
+                <a href="{{ url_for('landing_page') }}
+                " style="color: white; margin-right: 10px;">Home &nbsp;|</a>
+                <a href="{{ url_for('cookies') }}" style="color: white; margin-right: 10px;">Cookies &nbsp;&nbsp;&nbsp;|</a>
+                <a href="{{ url_for('FAQs') }}" style="color: white;"> &nbsp;FAQs</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

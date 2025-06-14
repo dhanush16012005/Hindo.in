@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Hindi E-Learning Platform</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .navbar img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .navbar button {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dashboard {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 60px; /* Adjusted to start below the navbar */
+            bottom: 0;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            transform: translateX(-100%);
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Geologica', sans-serif;
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 220px;
+            padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .content.full-width {
+            margin-left: 0;
+        }
+
+        .header {
+            background-color: #258cd9;
+            color: white;
+            padding: 28px;
+            text-align: center;
+            font-family: 'Geologica', sans-serif;
+        }
+
+        .section {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center; /* Centering the content inside the section */
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            margin: 10px 0;
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        .announcement-section,
+        .video-list,
+        .feedback,
+        .schedule-meeting,
+        .instructor-information,
+        .profile,
+        .logout,
+        .admin-announcement-section {
+            display: none;
+        }
+
+        .announcement-item {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        .profile-card h3 {
+            margin: 0;
+        }
+
+        .profile-card p {
+            margin: 5px 0;
+        }
+
+        .button-group a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Geologica', sans-serif;
+            font-size: 16px;
+        }
+
+        .button-group .btn-primary {
+            background-color: #007bff;
+        }
+
+        .button-group .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .button-group .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .button-group .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .navbar .toggle-button {
+                display: block;
+            }
+
+            .content.full-width {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="static/Logo Mark Colour.jpg" alt="Logo">
+        <button class="toggle-button" onclick="toggleSidebar()">☰</button>
+    </div>
+    <div class="dashboard">
+        <div class="sidebar" id="sidebar">
+            <a href="#" class="active" onclick="loadPage('dashboard')">Dashboard</a>
+            <a href="#" onclick="loadPage('schedule-meeting')">Schedule Meeting</a>
+            <a href="#" onclick="loadPage('instructor-information')">Instructor</a>
+            <a href="#" onclick="loadPage('profile')">Profile</a>
+            <a href="#" onclick="loadPage('admin-announcement')">Admin Announcement</a>
+            <a onclick="window.location.href='{{ url_for('landing_page') }}'">Logout</a>
+        </div>
+        <div class="content" id="content">
+            <div class="header">
+                <h1>Student Dashboard</h1>
+            </div>
+            <div id="dashboard" class="section">
+                <h2>Welcome, {{ student['fullname'] }}</h2>
+                <p>Track your classes, assignments, and grades from this dashboard.</p>
+                <div class="cards" id="student-courses">
+                    <div class="card" onclick="goToAnnouncements('{{ student['course'] }}', '{{ student['batch_id'] }}', '{{ student['teacher_id'] }}')">
+                        <h3>{{ student['course'] }}</h3>
+                        <p>Batch ID: {{ student['batch_id'] }}</p>
+                        <p>Start Time: {{ student['start_time'] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div id="announcement" class="section announcement-section" style="display: none;">
+                <h2>Announcements</h2>
+                <div id="announcement-list" class="announcement-list">
+                    <!-- Announcements will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="recorded-videos" class="section" style="display: none;">
+                <h2>View Recorded Videos</h2>
+                <div id="video-list" class="video-list">
+                    <!-- Recorded videos will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="feedback" class="section" style="display: none;">
+                <h2>Feedback</h2>
+                <p>Provide your feedback here.</p>
+            </div>
+            <div id="schedule-meeting" class="section" style="display: none;">
+                <div class="hero main d-flex flex-column align-items-center justify-content-center">
+                    <div class="button-group">
+                        <a href="/join" class="btn-primary">Join Meeting</a>
+                       <!-- <a href="/logout" class="btn-danger">Logout</a>-->
+                    </div>
+                </div>
+            </div>
+            <div id="instructor-information" class="section" style="display: none;">
+                <h2>Instructor</h2>
+                <div id="instructor-details">
+                    <!-- Instructor details will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="profile" class="section" style="display: none;">
+                <h2>Profile</h2>
+                <div id="profile-details" class="profile-card">
+                    <!-- Profile details will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="admin-announcement" class="section admin-announcement-section" style="display: none;">
+                <h2>Admin Announcements</h2>
+                <div id="admin-announcement-list" class="announcement-list">
+                    <!-- Admin announcements will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="logout" class="section" style="display: none;">
+                <h2>Logout</h2>
+                <p>You have been logged out.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            sidebar.classList.toggle('active');
+            content.classList.toggle('full-width');
+        }
+
+        function loadPage(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+
+            const links = document.querySelectorAll('.sidebar a');
+            links.forEach(link => link.classList.remove('active'));
+            document.querySelector(`.sidebar a[onclick="loadPage('${sectionId}')"]`).classList.add('active');
+        }
+
+        function goToAnnouncements(courseName, batchId, teacherId) {
+            window.location.href = `/student_announcements?course_name=${courseName}&batch_id=${batchId}&teacher_id=${teacherId}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const playButton = document.querySelector('.play-button');
+            if (playButton) {
+                playButton.addEventListener('click', function () {
+                    alert('Playing the first lesson');
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAnnouncements();
+            fetchRecordedVideos();
+            fetchAdminAnnouncements();
+            fetchInstructorDetails();
+            fetchStudentDetails();
+        });
+
+        function fetchAnnouncements() {
+            const storedAnnouncements = JSON.parse(localStorage.getItem('announcements')) || [];
+            const announcementList = document.getElementById('announcement-list');
+            announcementList.innerHTML = '';
+
+            storedAnnouncements.forEach(announcement => {
+                const announcementItem = document.createElement('div');
+                announcementItem.classList.add('announcement-item');
+                announcementItem.textContent = announcement;
+                announcementList.appendChild(announcementItem);
+            });
+        }
+
+        function fetchRecordedVideos() {
+            const videos = [
+                { id: 1, name: 'Video 1', url: 'video1.mp4' },
+                { id: 2, name: 'Video 2', url: 'video2.mp4' },
+            ];
+
+            const videoList = document.getElementById('video-list');
+            videoList.innerHTML = '';
+
+            videos.forEach(video => {
+                const videoItem = document.createElement('div');
+                videoItem.classList.add('video-item');
+                
+                videoItem.innerHTML = `
+                    <h3>${video.name}</h3>
+                    <video controls>
+                        <source src="${video.url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+
+                videoList.appendChild(videoItem);
+            });
+        }
+
+        function fetchAdminAnnouncements() {
+            fetch('/get_admin_announcements')
+                .then(response => response.json())
+                .then(data => {
+                    const announcements = data.announcements;
+                    const announcementList = document.getElementById('admin-announcement-list');
+                    announcementList.innerHTML = '';
+
+                    announcements.forEach(announcement => {
+                        const announcementItem = document.createElement('div');
+                        announcementItem.classList.add('announcement-item');
+                        announcementItem.innerHTML = `
+                            <h3>${announcement.title}</h3>
+                            <p>${announcement.announcement}</p>
+                            <p>${new Date(announcement.date).toLocaleString()}</p>
+                        `;
+                        announcementList.appendChild(announcementItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching admin announcements:', error));
+        }
+
+        function fetchInstructorDetails() {
+            const teacherId = "{{ student['teacher_id'] }}";
+            fetch(`/api/instructor_details/${teacherId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const instructor = data.instructor;
+                    const instructorDetails = document.getElementById('instructor-details');
+                    instructorDetails.innerHTML = `
+                        <div class="profile-card">
+                            <img src="${instructor.avatar || 'https://via.placeholder.com/50'}" alt="Instructor Photo">
+                            <div>
+                                <h3>${instructor.fullname}</h3>
+                                <p>Email: ${instructor.email}</p>
+                                <p>Qualification: ${instructor.qualification}</p>
+                                <p>Experience: ${instructor.experience} years</p>
+                                <p>Specializations: ${instructor.specializations}</p>
+                                <p>Institution: ${instructor.institution}</p>
+                                <p>Availability: ${instructor.availability_start} - ${instructor.availability_end}</p>
+                                <p>Phone: ${instructor.phone}</p>
+                                <p>District: ${instructor.district}</p>
+                            </div>
+                        </div>
+                    `;
+                })
+                .catch(error => console.error('Error fetching instructor details:', error));
+        }
+
+        function fetchStudentDetails() {
+            const studentDetails = {{ student|tojson }};
+            const profileDetails = document.getElementById('profile-details');
+            profileDetails.innerHTML = `
+                <img src="https://via.placeholder.com/50" alt="Student Photo">
+                <div>
+                    <h3>${studentDetails.fullname}</h3>
+                    <p>Email: ${studentDetails.email}</p>
+                    <p>Date of Birth: ${studentDetails.dob}</p>
+                    <p>Gender: ${studentDetails.gender}</p>
+                    <p>Status: ${studentDetails.status}</p>
+                    <p>Institution: ${studentDetails.institution}</p>
+                    <p>Language Proficiency: ${studentDetails.language_proficiency}</p>
+                    <p>Course: ${studentDetails.course}</p>
+                    <p>Active Batch: ${studentDetails.batch_id}</p>
+                    <p>Preferred Time: ${studentDetails.preferred_time}</p>
+                    <p>Exam Preference: ${studentDetails.exam_preference}</p>
+                    <p>Phone: ${studentDetails.phone}</p>
+                    <p>State: ${studentDetails.state}</p>
+                    <p>District: ${studentDetails.district}</p>
+                </div>
+            `;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3LHB6ONNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

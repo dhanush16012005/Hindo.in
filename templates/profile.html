@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/sample.ico" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .profile-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .profile-container h2 {
+            margin-top: 30%;
+            text-align: center;
+        }
+        .profile-details p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2>Profile</h2>
+        <div class="profile-details">
+            <p>Name: {{ student.fullname }}</p>
+            <p>Email: {{ student.email }}</p>
+            <p>Date of Birth: {{ student.dob }}</p>
+            <p>Gender: {{ student.gender }}</p>
+            <p>Status: {{ student.status }}</p>
+            <p>Institution: {{ student.institution }}</p>
+            <p>Language Proficiency: {{ student.language_proficiency }}</p>
+            <p>Course: {{ student.course }}</p>
+            <p>Active Batch: {{ student.active_batch }}</p>
+            <p>Preferred Time: {{ student.preferred_time }}</p>
+            <p>Exam Preference: {{ student.exam_preference }}</p>
+            <p>Phone: {{ student.phone }}</p>
+            <p>State: {{ student.state }}</p>
+            <p>District: {{ student.district }}</p>
+        </div>
+    </div>
+</body>
+</html>
